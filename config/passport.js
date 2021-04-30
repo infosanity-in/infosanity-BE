@@ -7,8 +7,8 @@ const { Strategy, ExtractJwt } = require("passport-jwt");
 const { User } = require("../models");
 
 const options = {};
-options.jwtFrmomRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-options.secretOrkey = process.env.JWT_SECRET;
+options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+options.secretOrKey = process.env.JWT_SECRET;
 
 module.exports = (passport) => {
   passport.use(

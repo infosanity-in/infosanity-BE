@@ -16,5 +16,8 @@ mongoose
 
 module.exports = {
   Example: require("./example"),
-  User: require("./user"),
+  User: require("./user.model"),
+  Role: require("./role.model"),
+  Tag: require("./tag.model"),
+  Content: require("./content.model"),
 };

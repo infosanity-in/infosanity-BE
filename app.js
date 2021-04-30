@@ -1,5 +1,7 @@
 // Import Dependencies
-require("dotenv").config();
+const path = require('path');
+const envPath = path.join(__dirname, `./.env.${process.env.NODE_ENV}`)
+require('dotenv').config({ path: envPath });
 const express = require("express");
 const routes = require("./routes");
 const cors = require("cors");
