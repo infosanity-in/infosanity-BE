@@ -1,5 +1,5 @@
 const constants = {
-  PERMISSION_MODULES: {
+  CONTENT_TYPES: {
     POLITICS: 'politics',
     HEALTH: 'health',
     CURRENT_AFFAIRS: 'currentAffairs',

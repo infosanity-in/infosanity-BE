@@ -7,6 +7,9 @@ const TagSchema = new Schema({
     required: true,
     trim: true,
   },
+  rank: {
+    type: Number,
+  },
 }, {
   timestamps: true
 });
