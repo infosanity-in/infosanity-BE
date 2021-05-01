@@ -4,6 +4,7 @@ const mongoose = require('mongoose'),
 const {
   CONTENT_FLAGS,
   SPAM_TYPES,
+  CONTENT_TYPES,
 } = require('../utils/constants');
 const {
   AclSchema
@@ -32,6 +33,10 @@ const ContentSchema = new Schema({
   },
   content: {
     type: String
+  },
+  type: {
+    type: String,
+    enum: Object.values(CONTENT_TYPES),
   },
   flag: {
     type: String,
