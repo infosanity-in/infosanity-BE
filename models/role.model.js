@@ -1,18 +1,18 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 const {
-  PERMISSION_MODULES,
-  ACCESS_TYPES,
+  CONTENT,
+  ROLE_ACCESS_TYPES,
 } = require('../utils/constants');
 
 const PermissionSchema = new Schema({
   module: {
     type: String,
-    enum: Object.values(PERMISSION_MODULES),
+    enum: Object.values(CONTENT.TYPES),
   },
   access: [{
     type: String,
-    enum: Object.values(ACCESS_TYPES)
+    enum: Object.values(ROLE_ACCESS_TYPES)
   }]
 }, {
   _id: false

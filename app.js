@@ -3,7 +3,7 @@ const path = require('path');
 const envPath = path.join(__dirname, `./.env.${process.env.NODE_ENV}`)
 require('dotenv').config({ path: envPath });
 const express = require("express");
-const routes = require("./routes");
+const router = require("./routes");
 const cors = require("cors");
 const passport = require("passport");
 require("./config/passport")(passport);
@@ -25,7 +25,7 @@ app.get("/api/", (req, res) => {
     message: "Welcome Developer !",
   });
 });
-
+app.use(router);
 // Server
 const server = app.listen(PORT, () =>
   console.log(`Server is running on PORT: ${PORT}`)
