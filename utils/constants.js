@@ -11,6 +11,7 @@ const constants = {
     VALIDATION_FAILED: 422,
     FAILURE: 500,
   },
+  VERIFICATION_HASH_LENGTH: 40,
   EMAIL_VALIDATE_REGEX: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   ROLE_ACCESS_TYPES: {
     VIEW: 'view',

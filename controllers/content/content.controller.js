@@ -1,17 +1,28 @@
-const {
-  Content: ContentModel,
-} = require('../../models');
-const {
-  successResponse,
-  errorResponse,
-} = require('../../utils/response');
-const {
-  CONTENT
-} = require('../../utils/constants');
+const { Content: ContentModel, } = require('../../models');
+const { successResponse, errorResponse, } = require('../../utils/response');
+const { CONTENT, VERIFICATION_HASH_LENGTH } = require('../../utils/constants');
 const Pagination = require('../../utils/Pagination');
-const {
-  generateFindQuery,
-} = require('./content.helper');
+const { generateFindQuery, } = require('./content.helper');
+
+const { sendVerificationEmail, findAndUpdateStatus } = require('../../utils/emailVerification')
+
+const verifyEmail = async (req, res) => {
+  try {
+    const { hash } = req.params;
+    if (!hash) res.sendStatus(403)
+    if (hash.length !== VERIFICATION_HASH_LENGTH) res.sendStatus(403)
+    else {
+      let r = await findAndUpdateStatus(hash)
+      // TODO : send success html or redirect to another page.
+      // res.sendFile('success.html')
+      if (r) res.sendStatus(200)
+      else res.sendStatus(403)
+    }
+  } catch (err) {
+    res.sendStatus(403)
+  }
+
+}
 
 const getContent = async (req, res) => {
   try {
@@ -43,7 +54,7 @@ const getContent = async (req, res) => {
     }
     const skip = paginationUtil.getOffset();
     const limit = paginationUtil.getLimit();
-   
+
     const contentData = await ContentModel.find(findQuery)
       .sort(sortClause)
       .skip(skip)
@@ -69,4 +80,5 @@ const getContent = async (req, res) => {
 
 module.exports = {
   getContent,
+  verifyEmail
 }
