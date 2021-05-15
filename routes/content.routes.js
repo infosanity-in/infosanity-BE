@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const ContentController = require('../controllers/content/content.controller');
-const { validateContentGet } = require('../controllers/content/content.middleware');
+const {
+  validateContentGet,
+  validateContentPost,
+} = require('../controllers/content/content.middleware');
 
 // Routes
 router.get('/', validateContentGet, ContentController.getContent);
@@ -28,9 +31,11 @@ otp ''
           * etc  
 */
 
+// Create a new Post
+router.post('/', validateContentPost, ContentController.postContent);
 
 // Adding user email verification endpoint.
-router.get('/verify/:hash', validateContentGet, ContentController.verifyEmail)
+router.get('/verify/:hash', validateContentGet, ContentController.verifyEmail);
 
 /* PUT
   Edit content /:id

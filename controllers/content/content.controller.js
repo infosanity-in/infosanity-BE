@@ -78,7 +78,54 @@ const getContent = async (req, res) => {
   }
 }
 
+const postContent = async (req, res) => {
+  try {
+    const {
+      title,
+      content,
+      name,
+      email,
+      otp
+    } = req.body;
+
+    const newPostData = {
+      title,
+      content, 
+      type: CONTENT.TYPES.DEFAULT,
+      flag: CONTENT.FLAGS.PENDING,
+      isSpam: CONTENT.SPAM_TYPES.DEFAULT,
+      tags: [],
+      reviews: {
+        isReviewed: false,
+        reviewers: []
+      },
+      sourceMetaData: {},
+      acl: {
+        createdBy: {
+          name, 
+          email
+        },
+        updatedBy: {
+          name,
+          email
+        }
+      }
+    }
+
+    const newPostResponse = await ContentModel.create(newPostData);
+
+    return successResponse({res, responseObject: newPostResponse})
+
+  } catch (err) {
+    return errorResponse({
+      res,
+      err,
+      responseMessage: 'Error creating new content.',
+    })
+  }
+}
 module.exports = {
   getContent,
-  verifyEmail
+  verifyEmail,
+  postContent
 }
