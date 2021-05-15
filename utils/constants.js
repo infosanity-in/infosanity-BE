@@ -26,7 +26,8 @@ const constants = {
       ECONOMICS: 'economics',
       FINANCE: 'finance',
       STUDENT: 'student',
-      TECHNOLOGY: 'technology'
+      TECHNOLOGY: 'technology',
+      DEFAULT: "default"
     },
     FLAGS: {
       PENDING: 'pending',
@@ -40,7 +41,8 @@ const constants = {
       PHYSICAL_ABUSE: 'physicalAbuse',
       MENTAL_ABUSE: 'mentalAbuse',
       SEXUAL: 'sexual',
-      DISCRIMINATORY: 'discriminatory'
+      DISCRIMINATORY: 'discriminatory',
+      DEFAULT: 'none'
     },
     FILTER_TYPES: {
       TYPE: 'type',
@@ -55,6 +57,10 @@ const constants = {
     SORT_DIRECTION: {
       ASC: 'asc',
       DESC: 'desc'
+    },
+    MISC: {
+      TITLE_LENGTH: 6,
+      NAME_LENGTH: 3
     }
   }
 };
