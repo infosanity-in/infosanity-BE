@@ -20,6 +20,10 @@ const ReviewerSchema = new Schema({
     type: Boolean,
     default: false
   },
+  reviewFlag: {
+    type: String,
+    enum: Object.values(CONTENT.FLAGS)
+  }
 }, {
   _id: false
 });

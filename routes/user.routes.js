@@ -11,3 +11,15 @@
     Edit tag ranks
     Manage user and roles
 */
+
+const router = require('express').Router();
+const UserController = require('../controllers/user/user.controller');
+const {
+    validateCreateUser,
+    validateUpdateUser,
+} = require('../controllers/user/user.middleware');
+
+router.post('/', validateCreateUser, UserController.createUser);
+router.patch('/:id', validateUpdateUser, UserController.updateUser);
+
+module.exports = router;

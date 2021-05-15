@@ -2,7 +2,7 @@ const mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 const {
   CONTENT,
-  ROLE_ACCESS_TYPES,
+  ROLE,
 } = require('../utils/constants');
 
 const PermissionSchema = new Schema({
@@ -12,7 +12,7 @@ const PermissionSchema = new Schema({
   },
   access: [{
     type: String,
-    enum: Object.values(ROLE_ACCESS_TYPES)
+    enum: Object.values(ROLE.ACCESS_TYPES)
   }]
 }, {
   _id: false

@@ -12,10 +12,14 @@ const constants = {
     FAILURE: 500,
   },
   VERIFICATION_HASH_LENGTH: 40,
+  SPLIT_NAME_REGEX: /(?<=^\S+)\s/,
   EMAIL_VALIDATE_REGEX: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  ROLE_ACCESS_TYPES: {
-    VIEW: 'view',
-    EDIT: 'edit',
+  ROLE: {
+    ADMIN_ROLE_NAME: 'Admin',
+    ACCESS_TYPES: {
+      VIEW: 'view',
+      EDIT: 'edit',
+    },
   },
   CONTENT: {
     TYPES: {

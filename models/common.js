@@ -10,6 +10,9 @@ const AclSchema = new Schema({
     },
     email: {
       type: String
+    },
+    name: {
+      type: String,
     }
   },
   updatedBy: {
@@ -19,6 +22,9 @@ const AclSchema = new Schema({
     },
     email: {
       type: String
+    },
+    name: {
+      type: String,
     }
   }
 })

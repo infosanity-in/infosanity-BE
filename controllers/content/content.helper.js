@@ -8,7 +8,9 @@ const generateFindQuery = params => {
     filterType,
     filterValue,
   } = params;
-  const findQuery = {};
+  const findQuery = {
+    flag: { $nin: [ CONTENT.FLAGS.UNCONFIRMED, CONTENT.FLAGS.PENDING ]}
+  };
   if (searchQuery) {
     findQuery.title = new RegExp(searchQuery, 'i');
   }
