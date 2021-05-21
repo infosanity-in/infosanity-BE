@@ -44,6 +44,10 @@ const ContentSchema = new Schema({
     type: String,
     enum: Object.values(CONTENT.SPAM_TYPES)
   },
+  verificationHash: {
+    type: String,
+    default: null
+  },
   masterVariationId: {
     type: ObjectId,
     ref: 'Content',

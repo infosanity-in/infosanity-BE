@@ -11,6 +11,7 @@ const constants = {
     VALIDATION_FAILED: 422,
     FAILURE: 500,
   },
+  VERIFICATION_HASH_LENGTH: 40,
   EMAIL_VALIDATE_REGEX: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   ROLE_ACCESS_TYPES: {
     VIEW: 'view',
@@ -25,7 +26,8 @@ const constants = {
       ECONOMICS: 'economics',
       FINANCE: 'finance',
       STUDENT: 'student',
-      TECHNOLOGY: 'technology'
+      TECHNOLOGY: 'technology',
+      DEFAULT: "default"
     },
     FLAGS: {
       PENDING: 'pending',
@@ -39,7 +41,8 @@ const constants = {
       PHYSICAL_ABUSE: 'physicalAbuse',
       MENTAL_ABUSE: 'mentalAbuse',
       SEXUAL: 'sexual',
-      DISCRIMINATORY: 'discriminatory'
+      DISCRIMINATORY: 'discriminatory',
+      DEFAULT: 'none'
     },
     FILTER_TYPES: {
       TYPE: 'type',
@@ -54,6 +57,10 @@ const constants = {
     SORT_DIRECTION: {
       ASC: 'asc',
       DESC: 'desc'
+    },
+    MISC: {
+      TITLE_LENGTH: 6,
+      NAME_LENGTH: 3
     }
   }
 };
