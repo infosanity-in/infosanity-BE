@@ -114,18 +114,51 @@ const postContent = async (req, res) => {
 
     const newPostResponse = await ContentModel.create(newPostData);
 
-    return successResponse({res, responseObject: newPostResponse})
+    newPostResponse.save();
 
+    return successResponse({ res });
   } catch (err) {
     return errorResponse({
       res,
-      err,
+      error: err,
       responseMessage: 'Error creating new content.',
     })
   }
 }
+};
+
+const updateContent = async (req, res) => {
+  try {
+    const data = req.body && req.body.data ? req.body.data : req.body;
+    const postId = req && req.params ? req.params.id : '';
+    
+    const { title, content, type, flag, isSpam, tags, reviews, sourceMetaData, acl } = data;
+
+    const newPostData = {
+      title,
+      content,
+      type,
+      flag,
+      isSpam,
+      tags,
+      reviews,
+      sourceMetaData,
+      acl,
+    };
+
+    const updatedContent = await ContentModel.findOneAndUpdate(
+      postId,
+      { ...newPostData },
+      { new: true }
+    );
+
+    updatedContent.save();
+
+    return successResponse({ res, statusCode: 201 });
+  } catch (err) {}
+};
 module.exports = {
   getContent,
   verifyEmail,
-  postContent
-}
+  postContent,
+  updateContent,
