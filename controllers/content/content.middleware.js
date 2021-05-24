@@ -81,7 +81,7 @@ const validateContentPost = (req, res, next) => {
         //? I was not able to use the email validator, and installed a new one
         //? We need to see why Regex is taking too long
         // return emailValidator.validate(email)
-        return validateEmail(email)
+        return validateEmail(email);
       }
     }
 
@@ -104,7 +104,76 @@ const validateContentPost = (req, res, next) => {
   } catch (err) {
     return errorResponse({
       res,
-      err,
+      error: err,
+    });
+  }
+};
+
+const validateContentPut = async (req, res) => {
+  try {
+    const {
+      title,
+      content,
+      acl: { email },
+    } = req.body;
+
+    // Validate post title
+    if (!title) {
+      return {
+        code: STATUS_CODES.NO_CONTENT,
+        message: MESSAGES.CONTENT.ERROR.NO_TITLE,
+      };
+    } else {
+      if (title && title.length <= CONTENT.MISC.TITLE_LENGTH) {
+        return {
+          code: STATUS_CODES.VALIDATION_FAILED,
+          message: MESSAGES.CONTENT.ERROR.TITLE_LENGTH_SHORT,
+        };
+      }
+    }
+
+    // Validate Post content
+    if (!content) {
+      return {
+        code: STATUS_CODES.NO_CONTENT,
+        message: MESSAGES.CONTENT.ERROR.NO_CONTENT,
+      };
+    }
+
+    // Validate user email
+    if (acl && !acl.email) {
+      return {
+        code: STATUS_CODES.NO_CONTENT,
+        message: MESSAGES.CONTENT.ERROR.NO_EMAIL,
+      };
+    } else {
+      if (acl && acl.email && acl.email.length > 0) {
+        //? I was not able to use the email validator, and installed a new one
+        //? We need to see why Regex is taking too long
+        // return emailValidator.validate(email)
+        return validateEmail(email);
+      }
+    }
+
+    // Validate user name
+    // Todo - Add Name in Acl
+    // if (!name) {
+    //   return {
+    //     code: STATUS_CODES.NO_CONTENT,
+    //     message: MESSAGES.CONTENT.ERROR.NO_USERNAME,
+    //   };
+    // } else {
+    //   if (name && name.length <= CONTENT.MISC.NAME_LENGTH) {
+    //     return {
+    //       code: STATUS_CODES.VALIDATION_FAILED,
+    //       message: MESSAGES.CONTENT.ERROR.NAME_TOO_SHORT,
+    //     };
+    //   }
+    // }
+  } catch (err) {
+    return errorResponse({
+      res,
+      error: err,
     });
   }
 };
@@ -112,4 +181,5 @@ const validateContentPost = (req, res, next) => {
 module.exports = {
   validateContentGet,
   validateContentPost,
+  validateContentPut,
 };

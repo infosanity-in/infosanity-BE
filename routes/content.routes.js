@@ -3,6 +3,7 @@ const ContentController = require('../controllers/content/content.controller');
 const {
   validateContentGet,
   validateContentPost,
+  validateContentPut,
 } = require('../controllers/content/content.middleware');
 
 // Routes
@@ -40,9 +41,11 @@ router.get('/verify/:hash', validateContentGet, ContentController.verifyEmail);
 /* PUT
   Edit content /:id
 */
+router.put('/:id', validateContentPut, ContentController.updateContent);
 
 /* DELETE
   Delete content /:id
 */
+router.delete('/:id', ContentController.deleteContent);
 
 module.exports = router;
