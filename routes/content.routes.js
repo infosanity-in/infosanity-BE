@@ -46,5 +46,6 @@ router.put('/:id', validateContentPut, ContentController.updateContent);
 /* DELETE
   Delete content /:id
 */
+router.delete('/:id', ContentController.deleteContent);
 
 module.exports = router;
