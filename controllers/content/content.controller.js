@@ -1,28 +1,27 @@
-const { Content: ContentModel, } = require('../../models');
-const { successResponse, errorResponse, } = require('../../utils/response');
+const { Content: ContentModel } = require('../../models');
+const { successResponse, errorResponse } = require('../../utils/response');
 const { CONTENT, VERIFICATION_HASH_LENGTH } = require('../../utils/constants');
 const Pagination = require('../../utils/Pagination');
-const { generateFindQuery, } = require('./content.helper');
+const { generateFindQuery } = require('./content.helper');
 
-const { sendVerificationEmail, findAndUpdateStatus } = require('../../utils/emailVerification')
+const { sendVerificationEmail, findAndUpdateStatus } = require('../../utils/emailVerification');
 
 const verifyEmail = async (req, res) => {
   try {
     const { hash } = req.params;
-    if (!hash) res.sendStatus(403)
-    if (hash.length !== VERIFICATION_HASH_LENGTH) res.sendStatus(403)
+    if (!hash) res.sendStatus(403);
+    if (hash.length !== VERIFICATION_HASH_LENGTH) res.sendStatus(403);
     else {
-      let r = await findAndUpdateStatus(hash)
+      let r = await findAndUpdateStatus(hash);
       // TODO : send success html or redirect to another page.
       // res.sendFile('success.html')
-      if (r) res.sendStatus(200)
-      else res.sendStatus(403)
+      if (r) res.sendStatus(200);
+      else res.sendStatus(403);
     }
   } catch (err) {
-    res.sendStatus(403)
+    res.sendStatus(403);
   }
-
-}
+};
 
 const getContent = async (req, res) => {
   try {
@@ -38,7 +37,7 @@ const getContent = async (req, res) => {
 
     const paginationUtil = new Pagination({
       pageNumber,
-      pageSize
+      pageSize,
     });
 
     const findQuery = generateFindQuery({
@@ -47,7 +46,7 @@ const getContent = async (req, res) => {
       filterValue,
     });
     const sortClause = {
-      [sortType]: 1
+      [sortType]: 1,
     };
     if (sortDirection === CONTENT.SORT_DIRECTION.DESC) {
       sortClause[sortType] = -1;
@@ -55,62 +54,54 @@ const getContent = async (req, res) => {
     const skip = paginationUtil.getOffset();
     const limit = paginationUtil.getLimit();
 
-    const contentData = await ContentModel.find(findQuery)
-      .sort(sortClause)
-      .skip(skip)
-      .limit(limit);
+    const contentData = await ContentModel.find(findQuery).sort(sortClause).skip(skip).limit(limit);
 
     const responseObject = {
       contentData,
       pageNumber,
       pageSize,
-    }
+    };
     return successResponse({
       res,
       responseObject,
-    })
+    });
   } catch (error) {
     return errorResponse({
       res,
       error,
       responseMessage: 'Error listing content.',
-    })
+    });
   }
-}
+};
 
+// Create a new Content Post
 const postContent = async (req, res) => {
   try {
-    const {
-      title,
-      content,
-      name,
-      email,
-      otp
-    } = req.body;
+    const { title, content, name, email, otp } = req.body;
 
     const newPostData = {
       title,
-      content, 
+      content,
       type: CONTENT.TYPES.DEFAULT,
       flag: CONTENT.FLAGS.PENDING,
       isSpam: CONTENT.SPAM_TYPES.DEFAULT,
       tags: [],
       reviews: {
         isReviewed: false,
-        reviewers: []
+        reviewers: [],
       },
       sourceMetaData: {},
       acl: {
         createdBy: {
-          name, 
-          email
+          name,
+          email,
         },
         updatedBy: {
           name,
-          email
-        }
-      }
-    }
+          email,
+        },
+      },
+    };
 
     const newPostResponse = await ContentModel.create(newPostData);
 
@@ -122,16 +113,16 @@ const postContent = async (req, res) => {
       res,
       error: err,
       responseMessage: 'Error creating new content.',
-    })
+    });
   }
-}
 };
 
+// Update existing content
 const updateContent = async (req, res) => {
   try {
     const data = req.body && req.body.data ? req.body.data : req.body;
     const postId = req && req.params ? req.params.id : '';
-    
+
     const { title, content, type, flag, isSpam, tags, reviews, sourceMetaData, acl } = data;
 
     const newPostData = {
@@ -155,10 +146,37 @@ const updateContent = async (req, res) => {
     updatedContent.save();
 
     return successResponse({ res, statusCode: 201 });
-  } catch (err) {}
+  } catch (err) {
+    return errorResponse({
+      res,
+      error: err,
+      responseMessage: 'Error updating content.',
+    });
+  }
 };
+
+//! Delete a content - Only Admin Access
+const deleteContent = async (req, res) => {
+  try {
+    const contentId = req && req.params ? req.params.id : '';
+    const deletedContent = await ContentModel.findByIdAndRemove(contentId);
+
+    deletedContent.save();
+
+    return successResponse({ res });
+  } catch (err) {
+    return errorResponse({
+      res,
+      error: err,
+      responseMessage: 'Error deleting content.',
+    });
+  }
+};
+
 module.exports = {
   getContent,
   verifyEmail,
   postContent,
   updateContent,
+  deleteContent,
+};
